@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Bonjour</title>
+</head>
+<body>
+    <?php
+        echo "<h1>Bonjour !</h1>";
+    ?>
+</body>
+</html>
