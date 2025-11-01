@@ -6,19 +6,21 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <div class="center-panel">
-      <h1>EME</h1>
+<div class="container">
+  <div class="left-panel">
+    <div class="logo-title">
+      <img src="logoEM.png" alt="Logo EM" class="logo">
       <h1>ESIG'MOVING</h1>
-      <div class="buttons">
-        <button>CRÉER UN COMPTE</button>
-        <button>CONNEXION</button>
-        <button>INFORMATIONS</button>
-      </div>
     </div>
-    <div class="right-panel">
-      <img src="image.jpg" alt="Personnes avec cartons">
+    <div class="buttons">
+      <button>CRÉER UN COMPTE</button>
+      <button>CONNEXION</button>
+      <button>INFORMATIONS</button>
     </div>
   </div>
+  <div class="right-panel">
+    <img src="image.jpg" alt="Personnes avec cartons" class="main-image">
+  </div>
+</div>
 </body>
 </html>

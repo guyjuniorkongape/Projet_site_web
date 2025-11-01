@@ -1,19 +1,69 @@
 body {
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
-  }
-  
-  h1 {
-    color: #007acc;
-    text-align: center;
-    margin-top: 50px;
-  }
-  
-  button {
-    background-color: #007acc;
-    color: blue;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-  }
-  
+  background-color: #b5d8ee;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-panel {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.logo-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  width: 60px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+h1 {
+  font-size: 60px; /* plus grand */
+  color: rgb(4, 4, 10);
+  margin: 0;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 70%;
+  align-items: center;
+  margin-top: 30px;
+}
+
+button {
+  background-color: grey;
+  color: rgb(4, 4, 10);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+.right-panel {
+  width: 50%;
+  height: 100%;
+}
+
+.main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
