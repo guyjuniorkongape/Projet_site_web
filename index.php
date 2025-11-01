@@ -8,7 +8,7 @@
 <body>
   <div class="container">
     <div class="center-panel">
-      <h1>EM</h1>
+      <h1>EME</h1>
       <h1>ESIG'MOVING</h1>
       <div class="buttons">
         <button>CRÉER UN COMPTE</button>
