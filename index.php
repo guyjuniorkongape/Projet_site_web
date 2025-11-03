@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Bonjour</title>
+  <meta charset="UTF-8">
+  <title>ESIG'MOVING</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <?php
-        echo "<h1>Bonjour !</h1>";
-    ?>
+<div class="container">
+  <div class="left-panel">
+    <div class="logo-title">
+      <img src="logoEM.png" alt="Logo EM" class="logo">
+      <h1>ESIG'MOVING</h1>
+    </div>
+    <div class="buttons">
+      <button>CRÉER UN COMPTE</button>
+      <button>CONNEXION</button>
+      <button>INFORMATIONS</button>
+    </div>
+  </div>
+  <div class="right-panel">
+    <img src="image.jpg" alt="Personnes avec cartons" class="main-image">
+  </div>
+</div>
 </body>
 </html>
