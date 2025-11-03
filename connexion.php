@@ -3,65 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Connexion ‹ ESIG'MOVING</title>
-
-    <!-- Lien vers Bootstrap -->
+    <title>Connexion  ESIG'MOVING</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!--  Ton fichier CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
 </head>
-<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+<body class="bg-custom">
 
-<?php
-    $message = '';
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = $_POST['username'] ?? '';
-        $password = $_POST['password'] ?? '';
+<div class="container-fluid d-flex flex-column flex-md-row min-vh-100">
+    <!-- Zone gauche -->
+    <div class="col-md-6 d-flex flex-column justify-content-center align-items-center p-5">
+        <div class="logo mb-3">EM</div>
+        <h1 class="title mb-4">ESIGMOVING</h1>
+        <div class="card border-dark shadow-sm p-4 form-box w-100" style="max-width: 380px;">
+            <h4 class="text-center mb-4">Connexion</h4>
 
-        // Exemple d'identifiants (à remplacer par une vraie base de données)
-        $valid_username = 'admin';
-        $valid_password = '1234';
+            <?php
+                $message = '';
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $username = $_POST['username'] ?? '';
+                    $password = $_POST['password'] ?? '';
 
-        if ($username === $valid_username && $password === $valid_password) {
-            $message = '<div class="alert alert-success mt-3">Connexion réussie !</div>';
-        } else {
-            $message = '<div class="alert alert-danger mt-3">Nom d\'utilisateur ou mot de passe incorrect.</div>';
-        }
-    }
-?>
+                    $valid_username = 'admin';
+                    $valid_password = '1234';
 
-<div class="card shadow p-4" style="max-width: 380px; width: 100%;">
-    <div class="text-center mb-3">
-        <div class="logo mb-2">EM</div>
-        <h2 class="fw-bold title">ESIG’MOVING</h2>
+                    if ($username === $valid_username && $password === $valid_password) {
+                        $message = '<div class="alert alert-success">Connexion réussie !</div>';
+                    } else {
+                        $message = '<div class="alert alert-danger">Nom d\'utilisateur ou mot de passe incorrect.</div>';
+                    }
+                }
+            ?>
+
+            <form method="post" action="">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Nom d’utilisateur</label>
+                    <input type="text" id="username" name="username" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-outline-dark w-100">Se connecter</button>
+            </form>
+
+            <?php if ($message) echo $message; ?>
+
+            <div class="text-center mt-3">
+                <a href="creationcompte.php" class="text-dark text-decoration-none">Créer un compte</a><br>
+                <a href="index.php" class="text-dark text-decoration-none">&larr; Retour à l’accueil</a>
+            </div>
+        </div>
     </div>
 
-    <img src="photo_projet.png" alt="Illustration ESIG'MOVING" class="img-fluid rounded mb-4">
-
-    <form method="post" action="">
-        <div class="mb-3 text-start">
-            <label for="username" class="form-label">Nom d'utilisateur ou e-mail</label>
-            <input type="text" id="username" name="username" class="form-control" required>
-        </div>
-
-        <div class="mb-3 text-start">
-            <label for="password" class="form-label">Mot de passe</label>
-            <input type="password" id="password" name="password" class="form-control" required autocomplete="current-password">
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100">Se connecter</button>
-    </form>
-
-    <?php if ($message) echo $message; ?>
-
-    <div class="text-center mt-3">
-        <a href="#" class="text-decoration-none">Mot de passe oublié ?</a><br>
-        <a href="#" class="text-decoration-none">&larr; Retour à l’accueil</a>
+    <!-- Zone image droite -->
+    <div class="col-md-6 p-0 d-none d-md-block">
+        <img src="image.jpg" alt="Illustration ESIG'MOVING" class="img-fluid h-100 w-100 object-fit-cover">
     </div>
 </div>
 
-<!-- Scripts Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
