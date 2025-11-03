@@ -1,0 +1,62 @@
+/* --- Fond général --- */
+.bg-custom {
+    background-color: #d8e3f0;
+}
+
+/* --- Logo EM --- */
+.logo {
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    font-size: 32px;
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 4px;
+}
+
+/* --- Titre ESIG'MOVING --- */
+.title {
+    font-size: 36px;
+    font-weight: 500;
+    color: #000;
+    letter-spacing: 1px;
+}
+
+/* --- Boutons style encadré --- */
+.btn-outline-dark {
+    border: 1.5px solid #000;
+    background-color: transparent;
+    color: #000;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-dark:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/* --- Formulaire --- */
+.form-box {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+/* --- Image droite --- */
+.object-fit-cover {
+    object-fit: cover;
+}
+
+/* --- Adaptation mobile --- */
+@media (max-width: 767px) {
+    .col-md-6 {
+        width: 100%;
+    }
+
+    .logo {
+        font-size: 26px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+}
