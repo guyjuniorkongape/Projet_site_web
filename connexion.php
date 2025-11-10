@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Connexion  ESIG'MOVING</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style2.css">
 </head>
 <body>
   <div class="container">
@@ -17,21 +17,15 @@
       </div>
 
       <div class="form-box">
-        <form method="post" action="">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Nom d’utilisateur</label>
-                    <input type="text" id="username" name="username" class="form-control" required>
-                </div>
+          <form action="#" method="post">
+        <label for="username"> Nom d'utilisateur</label>
+        <input type="text" id="username" name="username" class="form-control" required>
 
-                <div class="mb-3">
-                    <label for="password" class="form-label">Mot de passe</label>
-                    <input type="password" id="password" name="password" class="form-control" required>
-                </div>
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" class="form-control" required>
 
-                <button type="submit" class="btn btn-outline-dark w-100">Se connecter</button>
-            </form>
-
-            
+        <button type="submit" class="btn btn-outline-dark w-100">Se connecter</button>
+      </form>
             <div class="text-center mt-3">
                 <a href="creationcompte.php" class="text-dark text-decoration-none">Créer un compte</a><br>
                 <a href="index.php" class="text-dark text-decoration-none">&larr; Retour à l’accueil</a>

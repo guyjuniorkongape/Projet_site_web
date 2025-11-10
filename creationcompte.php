@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Créer un compte ‹ ESIG'MOVING</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style2.css">
 </head>
 <body>
   <div class="container">
@@ -30,7 +30,7 @@
           <input type="password" id="confirm" name="confirm" required>
 
           <button type="submit">Créer le compte</button>
-        </form>
+        
 
             <div class="text-center mt-3">
                 <a href="connexion.php" class="text-dark text-decoration-none">Déjà un compte ? Se connecter</a><br>
