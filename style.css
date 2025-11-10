@@ -68,3 +68,22 @@ button {
   height: 100%;
   object-fit: cover;
 }
+.form-box {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    width: 90%;         /* avant 80% → plus large */
+    max-width: 500px;   /* avant 400px → plus grand */
+    padding: 40px;      /* plus de hauteur visuelle */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+.btn-outline-dark {
+    border: 1.5px solid #000;
+    background-color: transparent;
+    color: #000;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-dark:hover {
+    background-color: #000;
+    color: #fff;
+}
