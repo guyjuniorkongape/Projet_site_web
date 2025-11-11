@@ -13,9 +13,9 @@
       <h1>ESIG'MOVING</h1>
     </div>
     <div class="buttons">
-      <button>CRÉER UN COMPTE</button>
-      <button>CONNEXION</button>
-      <button>INFORMATIONS</button>
+      <button onclick="window.location.href='creationcompte.php'">CRÉER UN COMPTE</button>
+      <button onclick="window.location.href='connexion.php'">CONNEXION</button>
+      <button onclick="window.location.href='Information.php'">INFORMATIONS</button>
     </div>
   </div>
   <div class="right-panel">
