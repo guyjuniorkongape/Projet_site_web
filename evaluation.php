@@ -1,3 +1,37 @@
+<?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    require_once("connectbase.php");
+    $mysqli = new mysqli($host, $login, $passwd, $dbname);
+
+    if ($mysqli->connect_error) {
+        $_SESSION['erreur'] = "Erreur de connexion à la base.";
+        header("Location: Evaluation.php");
+        exit();
+    }
+
+    $id_client = $_SESSION['id_utilisateur'];
+    $id_demenageur = $_POST['id_demenageur'];
+    $note = $_POST['note'];
+    $commentaire = $_POST['commentaire'];
+
+    $stmt = $mysqli->prepare("INSERT INTO evaluation (id_client, id_demenageur, note, commentaire) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("iiis", $id_client, $id_demenageur, $note, $commentaire);
+
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "✅ Évaluation envoyée avec succès !";
+        header("Location: client.php");
+    } else {
+        $_SESSION['erreur'] = "Erreur lors de l'enregistrement de l'évaluation.";
+        header("Location: Evaluation.php");
+    }
+
+    $stmt->close();
+    $mysqli->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

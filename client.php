@@ -1,3 +1,40 @@
+<?php
+session_start();
+require_once("connectbase.php");
+
+// Vérifie si le client est bien connecté
+if (!isset($_SESSION['id_utilisateur']) || $_SESSION['role'] !== 'client') {
+    header("Location: connexion.php");
+    exit();
+}
+
+$id_client = $_SESSION['id_utilisateur'];
+
+// Connexion à la base de données
+$mysqli = new mysqli($host, $login, $passwd, $dbname);
+if ($mysqli->connect_error) {
+    die("Erreur de connexion : " . $mysqli->connect_error);
+}
+
+// Récupérer les déménageurs ayant postulé à ses demandes
+$sql = "SELECT DISTINCT u.nom, u.prenom, p.statut, p.id_proposition
+        FROM proposition p
+        JOIN demande d ON p.id_demande = d.id_demande
+        JOIN utilisateur u ON p.id_demenageur = u.id_utilisateur
+        WHERE d.id_client = ?";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param("i", $id_client);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$demenageurs = [];
+while ($row = $result->fetch_assoc()) {
+    $demenageurs[] = $row;
+}
+$stmt->close();
+$mysqli->close();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

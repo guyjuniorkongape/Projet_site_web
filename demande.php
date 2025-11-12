@@ -1,3 +1,45 @@
+<?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    require_once("connectbase.php");
+    $mysqli = new mysqli($host, $login, $passwd, $dbname);
+
+    if ($mysqli->connect_error) {
+        $_SESSION['erreur'] = "Erreur de connexion à la base.";
+        header("Location: Demande.php");
+        exit();
+    }
+
+    $id_client = $_SESSION['id_utilisateur'];
+    $description = $_POST['description'];
+
+
+    if ($mysqli->connect_error) {
+        $_SESSION['erreur'] = "Erreur de connexion à la base.";
+        header("Location: Demande.php");
+        exit();
+    }
+
+    $id_client = $_SESSION['id_utilisateur'];
+    $description = $_POST['description'];
+
+    $stmt = $mysqli->prepare("INSERT INTO demande (id_client, description) VALUES (?, ?)");
+    $stmt->bind_param("is", $id_client, $description);
+
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "✅ Demande enregistrée avec succès !";
+        header("Location: client.php");
+    } else {
+        $_SESSION['erreur'] = "Erreur lors de la création de la demande.";
+        header("Location: Demande.php");
+    }
+
+    $stmt->close();
+    $mysqli->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
