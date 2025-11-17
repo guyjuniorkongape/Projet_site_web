@@ -1,4 +1,9 @@
 <?php
+require_once 'connectbase.php';
+echo "Connexion réussie ✅";
+?>
+
+<?php
 session_start();
 require_once 'connectbase.php'; 
 

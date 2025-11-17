@@ -1,7 +1,7 @@
 <?php
 $servername = 'localhost';
 $username = 'root';
-$password = 'root';
+$password = '';
 $dbname = 'grp_7_3';
 try {
    // Création de la connexion PDO
