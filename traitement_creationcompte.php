@@ -1,52 +1,42 @@
 <?php
 session_start();
-require_once 'connectbase.php';
+require_once 'connectbase.php'; // garde PDO
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
-    $role = $_POST['role']; // 'client' ou 'demenageur'
+    $password_user = $_POST['password'];
+    $role = $_POST['role']; // client ou demenageur
 
-    require_once("connectbase.php");
-    $mysqli = new mysqli($host, $login, $passwd, $dbname);
+    // 1. Vérifier si email existe déjà
+    $check = $conn->prepare("SELECT id_utilisateur FROM utilisateur WHERE email = ?");
+    $check->execute([$email]);
 
-    if ($mysqli->connect_error) {
-        $_SESSION['erreur'] = "Erreur de connexion à la base de données.";
-        header("Location: creation_compte.php");
-        exit();
-    }
-
-    // Vérifier si l'email existe déjà
-    $check = $mysqli->prepare("SELECT id_utilisateur FROM utilisateur WHERE email = ?");
-    $check->bind_param("s", $email);
-    $check->execute();
-    $check->store_result();
-
-    if ($check->num_rows > 0) {
+    if ($check->rowCount() > 0) {
         $_SESSION['erreur'] = "Cet email est déjà utilisé.";
         header("Location: creation_compte.php");
         exit();
     }
-    $check->close();
 
-    // Hash du mot de passe
-    $password_hash = password_hash($password, PASSWORD_BCRYPT);
+    // 2. Hash du mot de passe
+    $password_hash = password_hash($password_user, PASSWORD_BCRYPT);
 
-    // Insertion
-    $stmt = $mysqli->prepare("INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $nom, $prenom, $email, $password_hash, $role);
+    // 3. Insertion en PDO
+    $stmt = $conn->prepare("
+        INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role)
+        VALUES (?, ?, ?, ?, ?)
+    ");
 
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "✅ Compte créé avec succès !";
+    if ($stmt->execute([$nom, $prenom, $email, $password_hash, $role])) {
+        $_SESSION['message'] = "Compte créé avec succès !";
         header("Location: connexion.php");
+        exit();
     } else {
         $_SESSION['erreur'] = "Erreur lors de la création du compte.";
         header("Location: creation_compte.php");
+        exit();
     }
-
-    $stmt->close();
-    $mysqli->close();
 }
 ?>

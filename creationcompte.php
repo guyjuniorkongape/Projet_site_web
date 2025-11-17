@@ -17,8 +17,11 @@
       </div>
       <div class="form-box">
         <form method="post" action="traitement_creationcompte.php">
-          <label for="username">Nom d'utilisateur</label>
-          <input type="text" id="username" name="username" required>
+          <label for="nom">Nom d'utilisateur</label>
+          <input type="text" id="nom" name="nom" required>
+
+          <label for="prenom">Prénom</label>
+          <input type="text" id="prenom" name="prenom" required>
 
           <label for="email">Adresse e-mail</label>
           <input type="email" id="email" name="email" required>
