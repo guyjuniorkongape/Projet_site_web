@@ -1,3 +1,37 @@
+<?php
+session_start();
+require_once("connectbase.php");
+
+// Vérifie si le client est bien connecté
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'client') {
+    header("Location: connexion.php");
+    exit();
+}
+
+$id_client = $_SESSION['id_utilisateur'];
+
+
+// Récupération des demandes du client
+$sqlDemandes = "SELECT * FROM demande WHERE id_client = ?";
+$stmtDemandes = $conn->prepare($sqlDemandes);
+$stmtDemandes->execute([$id_client]);
+$demandes = $stmtDemandes->fetchAll(PDO::FETCH_ASSOC);
+
+
+// Récupération des déménageurs ayant postulé
+$sql = "
+    SELECT DISTINCT u.nom, u.prenom, p.statut, p.id_proposition
+    FROM proposition p
+    JOIN demande d ON p.id_demande = d.id_demande
+    JOIN utilisateur u ON p.id_demenageur = u.id_utilisateur
+    WHERE d.id_client = ?
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute([$id_client]);
+$demenageurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -16,6 +50,8 @@
   </header>
 
   <main class="dashboard container text-center">
+
+    <!-- BOUTONS PRINCIPAUX -->
     <div class="row justify-content-center">
       <div class="col-md-3">
         <div class="card">
@@ -24,15 +60,6 @@
           <a href="Demande.php" class="btn btn-outline-dark mt-2">Faire une demande</a>
         </div>
       </div>
-
-      <div class="col-md-3">
-        <div class="card">
-          <img src="imgquestion.webp" alt="Question" class="card-img-top">
-          <h4>Répondre aux questions</h4>
-          <a href="Question.php" class="btn btn-outline-dark mt-2">Répondre</a>
-        </div>
-      </div>
-
       <div class="col-md-3">
         <div class="card">
           <img src="imgevaluation.webp" alt="Évaluation" class="card-img-top">
@@ -42,6 +69,40 @@
       </div>
     </div>
 
+    <!-- AFFICHAGE DES DEMANDES -->
+    <div class="card mt-5">
+      <h4>Vos demandes</h4>
+
+      <?php if (!empty($demandes)): ?>
+        <table class="table table-striped text-center mt-3">
+          <thead>
+            <tr>
+              <th>Titre</th>
+              <th>Date</th>
+              <th>Voir Discussion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($demandes as $d): ?>
+              <tr>
+                <td><?= htmlspecialchars($d['titre']) ?></td>
+                <td><?= htmlspecialchars($d['date_demande']) ?></td>
+                <td>
+                  <a href="question.php?id=<?= $d['id_demande'] ?>" class="btn btn-primary btn-sm">
+                    Voir
+                  </a>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+
+      <?php else: ?>
+        <p>Aucune demande pour le moment.</p>
+      <?php endif; ?>
+    </div>
+
+    <!-- DEMENAGEURS AYANT POSTULÉ -->
     <div class="card mt-5">
       <h4>Déménageurs ayant postulé</h4>
       <table class="table table-striped text-center mt-3">
@@ -52,13 +113,32 @@
             <th>Action</th>
           </tr>
         </thead>
-        
+
+        <tbody>
+        <?php if (!empty($demenageurs)): ?>
+          <?php foreach ($demenageurs as $d): ?>
+            <tr>
+              <td><?= htmlspecialchars($d['nom']) . " " . htmlspecialchars($d['prenom']) ?></td>
+              <td><?= htmlspecialchars($d['statut']) ?></td>
+              <td>
+                <a href="ConsulterProposition.php?id=<?= $d['id_proposition'] ?>" class="btn btn-success btn-sm">
+                  Consulter Proposition
+                </a>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="3">Aucun déménageur n’a encore postulé.</td></tr>
+        <?php endif; ?>
+        </tbody>
+
       </table>
     </div>
 
     <div class="mt-4">
       <a href="index.php" class="btn btn-custom">Retour à l'accueil</a>
     </div>
+
   </main>
 
   <footer class="text-center mt-5">

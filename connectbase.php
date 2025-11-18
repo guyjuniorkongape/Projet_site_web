@@ -1,10 +1,11 @@
 <?php
 $servername = 'localhost';
 $username = 'root';
-$password = 'root';
+$password = '';
 $dbname = 'grp_7_3';
 try {
    // Création de la connexion PDO
+   
    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
    // Configuration du mode d'erreur PDO sur Exception
    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -1,3 +1,34 @@
+<?php
+session_start();
+require_once("connectbase.php");
+
+// Vérifie si le client est connecté
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'client') {
+    header("Location: connexion.php");
+    exit();
+}
+
+$id_client = $_SESSION['id_utilisateur'];
+
+// Récupérer les déménagements terminés
+$sql = "
+    SELECT 
+        u.id_utilisateur AS id_demenageur,
+        u.nom,
+        u.prenom,
+        d.id_demande
+    FROM demande d
+    JOIN proposition p ON p.id_demande = d.id_demande
+    JOIN utilisateur u ON u.id_utilisateur = p.id_demenageur
+    WHERE d.id_client = ?
+      AND d.statut = 'terminee'
+      AND p.statut = 'acceptee'
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute([$id_client]);
+$demenageurs = $stmt->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,24 +46,48 @@
   </header>
 
   <main class="container d-flex flex-column align-items-center">
+
     <div class="form-box text-center">
-      <img src="photo_projet.png" alt="Déménageur" class="rounded mb-3" style="width:120px; height:120px; object-fit:cover;">
-      <form action="#" method="post">
+
+      <?php if (empty($demenageurs)): ?>
+          <p>Aucun déménagement terminé n'est disponible pour une évaluation.</p>
+          <a href="client.php" class="btn btn-custom mt-3">Retour</a>
+
+      <?php else: ?>
+
+      <form action="traitement_evaluation.php" method="post">
+
+        <label for="id_demenageur">Sélectionner un déménageur :</label>
+        <select name="id_demenageur" id="id_demenageur" class="form-select mb-3" required>
+            <option value="">Choisir...</option>
+
+            <?php foreach ($demenageurs as $d): ?>
+                <option value="<?= $d['id_demenageur'] ?>">
+                    <?= htmlspecialchars($d['nom'] . " " . $d['prenom']) ?> 
+                    (Demande n°<?= $d['id_demande'] ?>)
+                </option>
+            <?php endforeach; ?>
+        </select>
+
         <label for="note">Note (sur 5)</label>
         <select id="note" name="note" class="form-select mb-3" required>
           <option value="">Choisir...</option>
-          <option value="1">1 ★</option>
-          <option value="2">2 ★★</option>
-          <option value="3">3 ★★★</option>
-          <option value="4">4 ★★★★</option>
-          <option value="5">5 ★★★★★</option>
+          <option value="1">★</option>
+          <option value="2">★★</option>
+          <option value="3">★★★</option>
+          <option value="4">★★★★</option>
+          <option value="5">★★★★★</option>
         </select>
 
         <label for="commentaire">Commentaire</label>
-        <textarea id="commentaire" name="commentaire" rows="4"></textarea>
+        <textarea id="commentaire" name="commentaire" rows="3" class="form-control"></textarea>
 
-        <button type="submit" class="btn btn-outline-dark w-100 mt-3">Envoyer l’évaluation</button>
+        <button type="submit" class="btn btn-outline-dark w-100 mt-3">
+          Envoyer l’évaluation
+        </button>
       </form>
+
+      <?php endif; ?>
 
       <div class="text-center mt-3">
         <a href="client.php" class="btn btn-custom">Retour au tableau de bord</a>

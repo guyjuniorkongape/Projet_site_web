@@ -1,54 +1,42 @@
 <?php
-  session_start(); // Pour les massages
+session_start();
+require_once 'connectbase.php'; // garde PDO
 
-  // Contenu du formulaire :
-  $nom =  htmlentities($_POST['nom']);
-  $prenom = htmlentities($_POST['prenom']);
-  $email =  htmlentities($_POST['email']);
-  $password = htmlentities($_POST['password']);
-  $role = 0; 
-  // Définir des valeurs pour le role :
-  // 0 : le compte n'est pas activé,
-  // 1 : client,
-  // 2 : demenageur,
-  // 3 : admin
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-  // Option pour bcrypt (voir le lien du cours vers le site de PHP) :
-  $options = [
-        'cost' => 10,
-  ];
-  // On crypte le mot de passe
-  $password_crypt = password_hash($password, PASSWORD_BCRYPT, $options);
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $email = $_POST['email'];
+    $password_user = $_POST['password'];
+    $role = $_POST['role']; // client ou demenageur
 
-  // Connexion :
-  require_once("connectbase.php");
-  $mysqli = new mysqli($host, $login, $passwd, $dbname);
-  if ($mysqli->connect_error) {
-    $_SESSION['erreur']="Problème de connexion à la base de données ! &#128557;";
-      // die('Erreur de connexion (' . $mysqli->connect_errno . ') '
-              // . $mysqli->connect_error);
-  }
+    // 1. Vérifier si email existe déjà
+    $check = $conn->prepare("SELECT id_utilisateur FROM utilisateur WHERE email = ?");
+    $check->execute([$email]);
 
-  // À faire : vérifier si l'email existe déjà !
-
-
-  // Modifier la requête en fonction de la table et/ou des attributs :
-  if ($stmt = $mysqli->prepare("INSERT INTO compte(nom, prenom, email, password, role) VALUES (?, ?, ?, ?, ?)")) {
-
-    $stmt->bind_param("ssssi", $nom, $prenom, $email, $password_crypt, $role);
-    // Le message est mis dans la session, il est préférable de séparer message normal et message d'erreur.
-    if($stmt->execute()) {
-        // Requête exécutée correctement 
-        $_SESSION['message'] = "Enregistrement réussi";
-
-    } else {
-        // Il y a eu une erreur
-        $_SESSION['erreur'] =  "Impossible d'enregistrer";
+    if ($check->rowCount() > 0) {
+        $_SESSION['erreur'] = "Cet email est déjà utilisé.";
+        header("Location: creation_compte.php");
+        exit();
     }
-  }
- 
 
+    // 2. Hash du mot de passe
+    $password_hash = password_hash($password_user, PASSWORD_BCRYPT);
 
+    // 3. Insertion en PDO
+    $stmt = $conn->prepare("
+        INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role)
+        VALUES (?, ?, ?, ?, ?)
+    ");
 
-
+    if ($stmt->execute([$nom, $prenom, $email, $password_hash, $role])) {
+        $_SESSION['message'] = "Compte créé avec succès !";
+        header("Location: connexion.php");
+        exit();
+    } else {
+        $_SESSION['erreur'] = "Erreur lors de la création du compte.";
+        header("Location: creation_compte.php");
+        exit();
+    }
+}
 ?>

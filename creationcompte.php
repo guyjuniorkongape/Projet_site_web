@@ -16,12 +16,18 @@
         <h1>ESIG'MOVING</h1>
       </div>
       <div class="form-box">
-        <form method="post" action="">
-          <label for="username">Nom d'utilisateur</label>
-          <input type="text" id="username" name="username" required>
+        <form method="post" action="traitement_creationcompte.php">
+          <label for="nom">Nom d'utilisateur</label>
+          <input type="text" id="nom" name="nom" required>
+
+          <label for="prenom">Prénom</label>
+          <input type="text" id="prenom" name="prenom" required>
 
           <label for="email">Adresse e-mail</label>
           <input type="email" id="email" name="email" required>
+
+          <label for="role">Rôle</label>
+          <input type="text" id="role" name="role" required>
 
           <label for="password">Mot de passe</label>
           <input type="password" id="password" name="password" required>
@@ -30,6 +36,7 @@
           <input type="password" id="confirm" name="confirm" required>
 
           <button type="submit">Créer le compte</button>
+        </form>
         
 
             <div class="text-center mt-3">
