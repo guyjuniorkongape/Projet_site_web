@@ -11,7 +11,7 @@
       <div class="information-header">
         <img src="logoEM.png" alt="Logo EM" class="logo">
         <h1>ESIG'MOVING</h1>
-        <p>Avec ESIG'MOVING, déménager n’a jamais été aussi simple.</p>
+  
       </div>
 
       <div class="roles-section">

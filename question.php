@@ -2,11 +2,7 @@
 session_start();
 require_once 'connectbase.php';
 
-<<<<<<< HEAD
-if (!isset($_GET['id'])) {
-    exit("Il faut un ID");
-=======
-// Vérification connexion
+
 if (!isset($_SESSION['id_utilisateur'])) {
     header("Location: connexion.php");
     exit();
@@ -14,20 +10,14 @@ if (!isset($_SESSION['id_utilisateur'])) {
 
 if (!isset($_GET['id'])) {
     exit("ID de la demande manquant.");
->>>>>>> db5ee6c80136cc21c9411bdc1707d5b960b46d40
 }
 
 $id_demande = $_GET['id'];
 $id_utilisateur = $_SESSION['id_utilisateur'];
-<<<<<<< HEAD
-
-
-=======
 $role = $_SESSION['role'];
 
 
 //  RÉCUPÉRATION DE LA DEMANDE 
->>>>>>> db5ee6c80136cc21c9411bdc1707d5b960b46d40
 $stmt = $conn->prepare("SELECT * FROM demande WHERE id_demande = ?");
 $stmt->execute([$id_demande]);
 $demande = $stmt->fetch();
@@ -37,16 +27,6 @@ if (!$demande) {
 }
 
 
-<<<<<<< HEAD
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['contenu'])) {
-    $contenu = $_POST['contenu'];
-    $insert = $conn->prepare("INSERT INTO question (id_demande, id_auteur, contenu_question) VALUES (?, ?, ?)");
-    $insert->execute([$id_demande, $id_utilisateur, $contenu]);
-}
-
-
-$qstmt = $conn->prepare("SELECT q.*, u.nom FROM question q JOIN utilisateur u ON q.id_auteur = u.id_utilisateur WHERE q.id_demande = ? ORDER BY q.date_question ASC");
-=======
 //  INSERTION D’UNE QUESTION 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['contenu'])) {
 
@@ -74,7 +54,6 @@ $qstmt = $conn->prepare("
     WHERE q.id_demande = ?
     ORDER BY q.date_question ASC
 ");
->>>>>>> db5ee6c80136cc21c9411bdc1707d5b960b46d40
 $qstmt->execute([$id_demande]);
 $questions = $qstmt->fetchAll();
 ?>
@@ -83,97 +62,67 @@ $questions = $qstmt->fetchAll();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
-    <title>Discussione</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="container">
-    <div class="left-panel">
-        <div class="logo-title">
-            <img src="logoEM.png" alt="Logo" class="logo">
-            <h1>Discussion</h1>
-        </div>
-
-        <div style="background-color: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 600px;">
-            <p><strong>Description :</strong> <?= htmlspecialchars($demande['description']) ?></p>
-            <p><strong>Date :</strong> <?= htmlspecialchars($demande['date_demande']) ?></p>
-
-=======
     <title>Discussion</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<body class="bg-light">
 
-<body>
-<div class="container">
-    <div class="left-panel">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1a75cf;">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="logoEM.png" alt="Logo" width="40" class="me-2">
+            ESIG'MOVING
+        </a>
+    </div>
+</nav>
 
-        <div class="logo-title">
-            <img src="logoEM.png" alt="Logo" class="logo">
-            <h1>Discussion</h1>
-        </div>
+<div class="container-fluid py-4">
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Discussion</h2>
+                    <p><strong>Description :</strong> <?= htmlspecialchars($demande['description']) ?></p>
+                    <p><strong>Date :</strong> <?= htmlspecialchars($demande['date_demande']) ?></p>
+                    <hr>
 
-        <div style="background-color: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 600px;">
+                    <?php if (!empty($questions)): ?>
+                        <?php foreach ($questions as $q): ?>
+                            <div class="mb-3">
+                                <strong><?= htmlspecialchars($q['nom']) ?> :</strong><br>
+                                <span><?= nl2br(htmlspecialchars($q['contenu_question'])) ?></span><br>
+                                <small class="text-muted"><?= htmlspecialchars($q['date_question']) ?></small>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="alert alert-info">Aucune question pour le moment.</div>
+                    <?php endif; ?>
 
-            <p><strong>Description :</strong> <?= htmlspecialchars($demande['description']) ?></p>
-            <p><strong>Date :</strong> <?= htmlspecialchars($demande['date_demande']) ?></p>
+                    <form method="post" class="mt-4">
+                        <div class="mb-3">
+                            <textarea name="contenu" rows="3" class="form-control" placeholder="Votre question ou réponse..."></textarea>
+                        </div>
+                        <button type="submit" class="btn text-white" style="background-color: #1a75cf;">Envoyer</button>
+                    </form>
 
-            <hr>
-
->>>>>>> db5ee6c80136cc21c9411bdc1707d5b960b46d40
-            <?php if (!empty($questions)): ?>
-                <?php foreach ($questions as $q): ?>
-                    <div style="margin-bottom: 15px;">
-                        <strong><?= htmlspecialchars($q['nom']) ?> :</strong><br>
-<<<<<<< HEAD
-                        <span><?= htmlspecialchars($q['contenu_question']) ?></span><br>
-                        <span><?= htmlspecialchars($q['date_question']) ?></span><br>
-            
-=======
-                        <span><?= nl2br(htmlspecialchars($q['contenu_question'])) ?></span><br>
-                        <small><?= htmlspecialchars($q['date_question']) ?></small>
->>>>>>> db5ee6c80136cc21c9411bdc1707d5b960b46d40
+                    <div class="mt-4 text-center">
+                        <?php if ($role === 'client'): ?>
+                            <a href="client.php" class="btn btn-outline-secondary">Retour</a>
+                        <?php elseif ($role === 'demenageur'): ?>
+                            <a href="demenageur.php" class="btn btn-outline-secondary">Retour</a>
+                        <?php else: ?>
+                            <a href="index.php" class="btn btn-outline-secondary">Retour</a>
+                        <?php endif; ?>
                     </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>Aucune question pour le moment.</p>
-            <?php endif; ?>
-
-            <form method="post" style="margin-top: 20px;">
-<<<<<<< HEAD
-                <textarea name="contenu" rows="3" style="width: 100%;" placeholder="Votre question..."></textarea>
-                <button type="submit" style=" margin-top: 10px; background-color: #007BFF; color: white;">Envoyer</button>
-            </form>
-
-            <div class="buttons" style="margin-top: 20px;">
-                <button onclick="window.location.href='demenageur.php'">Retour</button>
-=======
-                <textarea name="contenu" rows="3" style="width: 100%;" placeholder="Votre question ou réponse..."></textarea>
-                <button type="submit" style="margin-top: 10px; background-color: #007BFF; color: white;">
-                    Envoyer
-                </button>
-            </form>
-
-            <div class="buttons" style="margin-top: 20px;">
-
-                <?php if ($role === 'client'): ?>
-                    <button onclick="window.location.href='client.php'">Retour</button>
-
-                <?php elseif ($role === 'demenageur'): ?>
-                    <button onclick="window.location.href='demenageur.php'">Retour</button>
-
-                <?php else: ?>
-                    <button onclick="window.location.href='index.php'">Retour</button>
-                <?php endif; ?>
-
->>>>>>> db5ee6c80136cc21c9411bdc1707d5b960b46d40
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="right-panel">
-        <img src="imgsalut.jpg" alt="Image" class="main-image">
+        
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

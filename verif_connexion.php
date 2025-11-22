@@ -25,7 +25,7 @@ try {
         // Redirection selon le rôle
         switch ($user['role']) {
             case 'admin':
-                header('Location: admin.php');
+                header('Location: administrateur.php');
                 break;
             case 'demenageur':
                 header('Location: demenageur.php');

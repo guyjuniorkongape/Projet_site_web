@@ -1,75 +1,124 @@
+/* Conteneur principal avec image de fond */
+.information-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("imageCANAP.jpg");
+  background-size: cover;
+  background-position: center;
+  padding: 40px;
+  font-family: Arial, sans-serif;
+}
 
-  .information-container {
-    display: flex;
+/* En-tête */
+.information-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.information-header h1 {
+  font-size: 36px;
+  margin: 10px 0;
+}
+
+/* Slogan lisible forcé */
+.information-header .slogan {
+  font-size: 30px !important;
+  font-weight: bold !important;
+  color: #fff !important;
+  background: rgba(206, 27, 27, 0.5) !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  display: inline-block !important;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.7) !important;
+}
+
+
+/* Section des rôles */
+.roles-section {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Bloc rôle */
+.role {
+  flex: 1 1 45%;
+  min-width: 300px;
+  max-width: 500px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Titre rôle */
+.role h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Étapes */
+.step {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.step img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 15px;
+  border-radius: 8px;
+}
+
+.step p {
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Logo */
+.logo {
+  width: 60px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* mobile */
+@media (max-width: 768px) {
+  .roles-section {
     flex-direction: column;
     align-items: center;
-    background-image: url("imageCANAP.jpg");
-    padding: 40px;
-    font-family: Arial, sans-serif;
   }
-  
-  .information-header {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  
-  .information-header h1 {
-    font-size: 36px;
-    margin: 10px 0;
-  }
-  
-  .information-header p {
-    font-size: 30px;
-    font-weight: bold;
-  }
-  
-  .roles-section {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    max-width: 1200px;
-    margin-top: 30px;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
+
   .role {
-    width: 45%;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 90%;
   }
-  
-  .role h2 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
+
   .step {
-    display: flex;
+    flex-direction: row;
     align-items: center;
-    margin-bottom: 15px;
+    text-align: left;
   }
-  
+
   .step img {
     width: 60px;
     height: 60px;
-    object-fit: cover;
     margin-right: 15px;
-    border-radius: 8px;
+    margin-bottom: 0;
   }
-  
+
   .step p {
     font-size: 16px;
     margin: 0;
   }
-  
-  .logo {
-    width: 60px;
-    height: auto;
-    display: block;
-    margin: 0 auto 10px;
-  }
-  
+}

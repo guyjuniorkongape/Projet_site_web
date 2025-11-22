@@ -34,44 +34,57 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Propositions reçues</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <div class="left-panel">
-            <div class="logo-title">
-                <img src="logoEM.png" alt="Logo EM" class="logo">
-                <h1>ESIG'MOVING</h1>
-            </div>
+<body class="bg-light">
 
-            <h2>Voici toutes les propositions que vous avez faites :</h2>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1a75cf;">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="logoEM.png" alt="Logo EM" width="40" class="me-2">
+            ESIG'MOVING
+        </a>
+        <div class="d-flex">
+            <a href="Deconnexion.php" class="btn btn-outline-light">Se déconnecter</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid py-4">
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <h2 class="mb-4">Voici toutes les annonces :</h2>
 
             <?php if (!empty($propositions)): ?>
                 <?php foreach ($propositions as $prop): ?>
-                    <a href="choisirProposition.php?id=<?= urlencode($prop['id']) ?>" style="text-decoration: none; color: inherit;">
-                        <div style="background-color: white; padding: 20px; border-radius: 10px; width: 80%; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer;">
-                            <p><strong>Client :</strong> <?= htmlspecialchars($prop['client_nom']) ?></p>
-                            <p><strong>Demande :</strong> <?= htmlspecialchars($prop['description']) ?></p>
-                            <p><strong>Date :</strong> <?= htmlspecialchars($prop['date_demande']) ?></p>
-                            <p><strong>Prix proposé :</strong> 
-                                <?= $prop['prix_estime'] !== null && $prop['prix_estime'] !== '' ? htmlspecialchars($prop['prix_estime']) . ' €' : 'Pas encore proposé' ?>
-                            </p>
-                            <p><strong>Statut :</strong> <?= htmlspecialchars($prop['statut']) ?></p>
+                    <a href="choisirProposition.php?id=<?= urlencode($prop['id']) ?>" class="text-decoration-none text-dark">
+                        <div class="card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <p><strong>Client :</strong> <?= htmlspecialchars($prop['client_nom']) ?></p>
+                                <p><strong>Demande :</strong> <?= htmlspecialchars($prop['description']) ?></p>
+                                <p><strong>Date :</strong> <?= htmlspecialchars($prop['date_demande']) ?></p>
+                                <p><strong>Prix proposé :</strong> 
+                                    <?= $prop['prix_estime'] !== null && $prop['prix_estime'] !== '' 
+                                        ? htmlspecialchars($prop['prix_estime']) . ' €' 
+                                        : 'Pas encore proposé' ?>
+                                </p>
+                                <p><strong>Statut :</strong> <?= htmlspecialchars($prop['statut']) ?></p>
+                            </div>
                         </div>
                     </a>
                 <?php endforeach; ?>
             <?php else: ?>
-                <p>Aucune proposition reçue pour le moment.</p>
+                <div class="alert alert-info">Aucune proposition reçue pour le moment.</div>
             <?php endif; ?>
-
-            <div class="buttons">
-                <button onclick="location.href='Deconnexion.php'">Se déconnecter</button>
-            </div>
         </div>
 
-        <div class="right-panel">
-            <img src="imgdemande.jpeg" alt="Personnes" class="main-image">
+        <div class="col-lg-6 d-flex align-items-center justify-content-center">
+            <img src="imgdemande.jpeg" alt="Personnes" class="img-fluid rounded shadow">
         </div>
     </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
