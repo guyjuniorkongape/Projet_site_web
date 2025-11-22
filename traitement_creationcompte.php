@@ -1,42 +1,60 @@
 <?php
 session_start();
-require_once 'connectbase.php'; // garde PDO
+require_once "connectbase.php";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+// Vérification que tous les champs existent
+if (
+    !isset($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['role'], $_POST['password'], $_POST['confirm'])
+) {
+    $_SESSION['erreur'] = "Tous les champs doivent être remplis.";
+    header("Location: creationcompte.php");
+    exit();
+}
 
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
-    $email = $_POST['email'];
-    $password_user = $_POST['password'];
-    $role = $_POST['role']; // client ou demenageur
+$nom = trim($_POST['nom']);
+$prenom = trim($_POST['prenom']);
+$email = trim($_POST['email']);
+$role = trim($_POST['role']);
+$password = $_POST['password'];
+$confirm = $_POST['confirm'];
 
-    // 1. Vérifier si email existe déjà
-    $check = $conn->prepare("SELECT id_utilisateur FROM utilisateur WHERE email = ?");
-    $check->execute([$email]);
+// Vérification du mot de passe
+if ($password !== $confirm) {
+    $_SESSION['erreur'] = "❌ Les mots de passe ne correspondent pas.";
+    header("Location: creationcompte.php");
+    exit();
+}
 
-    if ($check->rowCount() > 0) {
-        $_SESSION['erreur'] = "Cet email est déjà utilisé.";
-        header("Location: creation_compte.php");
-        exit();
-    }
+// Vérifier si l'e-mail existe déjà
+$sql = "SELECT id_utilisateur FROM utilisateur WHERE email = ?";
+$stmt = $conn->prepare($sql);
+$stmt->execute([$email]);
 
-    // 2. Hash du mot de passe
-    $password_hash = password_hash($password_user, PASSWORD_BCRYPT);
+if ($stmt->rowCount() > 0) {
+    $_SESSION['erreur'] = "⚠️ Cet e-mail existe déjà.";
+    header("Location: creationcompte.php");
+    exit();
+}
 
-    // 3. Insertion en PDO
-    $stmt = $conn->prepare("
-        INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role)
-        VALUES (?, ?, ?, ?, ?)
-    ");
+// Hash du mot de passe
+$hashed = password_hash($password, PASSWORD_DEFAULT);
 
-    if ($stmt->execute([$nom, $prenom, $email, $password_hash, $role])) {
-        $_SESSION['message'] = "Compte créé avec succès !";
-        header("Location: connexion.php");
-        exit();
-    } else {
-        $_SESSION['erreur'] = "Erreur lors de la création du compte.";
-        header("Location: creation_compte.php");
-        exit();
-    }
+// Insertion en base
+$sql_insert = "
+    INSERT INTO utilisateur (nom, prenom, email, role, motdepasse)
+    VALUES (?, ?, ?, ?, ?)
+";
+
+$stmt = $conn->prepare($sql_insert);
+$success = $stmt->execute([$nom, $prenom, $email, $role, $hashed]);
+
+if ($success) {
+    $_SESSION['message'] = "✅ Compte créé avec succès ! Vous pouvez vous connecter.";
+    header("Location: connexion.php");
+    exit();
+} else {
+    $_SESSION['erreur'] = "❌ Une erreur est survenue lors de la création du compte.";
+    header("Location: creationcompte.php");
+    exit();
 }
 ?>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Créer un compte ‹ ESIG'MOVING</title>
+  <title>CrÃ©er un compte â€¹ ESIG'MOVING</title>
   <link rel="stylesheet" href="style2.css">
 </head>
 <body>
@@ -16,6 +16,19 @@
         <h1>ESIG'MOVING</h1>
       </div>
       <div class="form-box">
+
+<?php if(isset($_SESSION['erreur'])): ?>
+  <div class="alert alert-danger">
+    <?= $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
+  </div>
+<?php endif; ?>
+
+<?php if(isset($_SESSION['message'])): ?>
+  <div class="alert alert-success">
+    <?= $_SESSION['message']; unset($_SESSION['message']); ?>
+  </div>
+<?php endif; ?>
+
         <form method="post" action="traitement_creationcompte.php">
           <label for="nom">Nom d'utilisateur</label>
           <input type="text" id="nom" name="nom" required>
@@ -27,7 +40,13 @@
           <input type="email" id="email" name="email" required>
 
           <label for="role">Rôle</label>
-          <input type="text" id="role" name="role" required>
+              <select id="role" name="role" required>
+                 <option value="">-- Sélectionnez un rôle --</option>
+                 <option value="client">Client</option>
+                 <option value="demenageur">Déménageur</option>
+                 <option value="admin">Administrateur</option>
+              </select>
+
 
           <label for="password">Mot de passe</label>
           <input type="password" id="password" name="password" required>
@@ -35,13 +54,13 @@
           <label for="confirm">Confirmer le mot de passe</label>
           <input type="password" id="confirm" name="confirm" required>
 
-          <button type="submit">Créer le compte</button>
+          <button type="submit">CrÃ©er le compte</button>
         </form>
         
 
             <div class="text-center mt-3">
-                <a href="connexion.php" class="text-dark text-decoration-none">Déjà un compte ? Se connecter</a><br>
-                <a href="index.php" class="text-dark text-decoration-none">&larr; Retour à l’accueil</a>
+                <a href="connexion.php" class="text-dark text-decoration-none">DÃ©jÃ  un compte ? Se connecter</a><br>
+                <a href="index.php" class="text-dark text-decoration-none">&larr; Retour Ã  lâ€™accueil</a>
             </div>
         </div>
       
