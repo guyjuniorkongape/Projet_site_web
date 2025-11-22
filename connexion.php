@@ -27,18 +27,15 @@ if (isset($_GET['erreur'])) {
         <div class="form-box">
             <form method="post" action="verif_connexion.php">
                 <div class="mb-3">
-                    <label for="username" class="form-label">Nom d’utilisateur</label>
-                    <input type="text" id="username" name="username" class="form-control" required>
+                    <label for="username" class="form-label">Adresse e-mail</label>
+                    <input type="email" id="username" name="username" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Mot de passe</label>
                     <input type="password" id="password" name="password" class="form-control" required>
                 </div>
-                <div class="mb-3">
-                    <label for="Role" class="form-label">Rôle</label>
-                    <input type="text" id="role" name="role" class="form-control" required>
-                </div>
+                
                 
                 <button type="submit" class="btn btn-outline-dark w-100">Se connecter</button>
             </form>
