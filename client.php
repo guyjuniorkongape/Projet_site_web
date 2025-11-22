@@ -10,15 +10,13 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'client') {
 
 $id_client = $_SESSION['id_utilisateur'];
 
-
-// Récupération des demandes du client
+// --- Récupération des demandes du client ---
 $sqlDemandes = "SELECT * FROM demande WHERE id_client = ?";
 $stmtDemandes = $conn->prepare($sqlDemandes);
 $stmtDemandes->execute([$id_client]);
 $demandes = $stmtDemandes->fetchAll(PDO::FETCH_ASSOC);
 
-
-// Récupération des déménageurs ayant postulé
+// --- Récupération des déménageurs ayant postulé ---
 $sql = "
     SELECT DISTINCT u.nom, u.prenom, p.statut, p.id_proposition
     FROM proposition p
@@ -31,7 +29,6 @@ $stmt = $conn->prepare($sql);
 $stmt->execute([$id_client]);
 $demenageurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -41,6 +38,7 @@ $demenageurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style2.css">
 </head>
+
 <body>
   <header>
     <img src="logoEM.png" alt="Logo ESIG'MOVING" class="logo">
@@ -57,14 +55,15 @@ $demenageurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="card">
           <img src="imgdemande.jpeg" alt="Demande" class="card-img-top">
           <h4>Créer une demande</h4>
-          <a href="Demande.php" class="btn btn-outline-dark mt-2">Faire une demande</a>
+          <a href="demande.php" class="btn btn-outline-dark mt-2">Faire une demande</a>
         </div>
       </div>
+
       <div class="col-md-3">
         <div class="card">
           <img src="imgevaluation.webp" alt="Évaluation" class="card-img-top">
           <h4>Évaluer un déménageur</h4>
-          <a href="Evaluation.php" class="btn btn-outline-dark mt-2">Évaluer</a>
+          <a href="evaluation.php" class="btn btn-outline-dark mt-2">Évaluer</a>
         </div>
       </div>
     </div>
@@ -74,28 +73,26 @@ $demenageurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <h4>Vos demandes</h4>
 
       <?php if (!empty($demandes)): ?>
-        <table class="table table-striped text-center mt-3">
-          <thead>
+      <table class="table table-striped text-center mt-3">
+        <thead>
+          <tr>
+            <th>Titre</th>
+            <th>Date</th>
+            <th>Voir Discussion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($demandes as $d): ?>
             <tr>
-              <th>Titre</th>
-              <th>Date</th>
-              <th>Voir Discussion</th>
+              <td><?= htmlspecialchars($d['titre']) ?></td>
+              <td><?= htmlspecialchars($d['date_demande']) ?></td>
+              <td>
+                <a href="Question.php?id=<?= $d['id_demande'] ?>" class="btn btn-primary btn-sm">Voir</a>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($demandes as $d): ?>
-              <tr>
-                <td><?= htmlspecialchars($d['titre']) ?></td>
-                <td><?= htmlspecialchars($d['date_demande']) ?></td>
-                <td>
-                  <a href="question.php?id=<?= $d['id_demande'] ?>" class="btn btn-primary btn-sm">
-                    Voir
-                  </a>
-                </td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
 
       <?php else: ?>
         <p>Aucune demande pour le moment.</p>
@@ -105,6 +102,7 @@ $demenageurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- DEMENAGEURS AYANT POSTULÉ -->
     <div class="card mt-5">
       <h4>Déménageurs ayant postulé</h4>
+
       <table class="table table-striped text-center mt-3">
         <thead>
           <tr>
@@ -121,7 +119,7 @@ $demenageurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <td><?= htmlspecialchars($d['nom']) . " " . htmlspecialchars($d['prenom']) ?></td>
               <td><?= htmlspecialchars($d['statut']) ?></td>
               <td>
-                <a href="ConsulterProposition.php?id=<?= $d['id_proposition'] ?>" class="btn btn-success btn-sm">
+                <a href="ConsulterPropositionclient.php?id=<?= $d['id_proposition'] ?>" class="btn btn-success btn-sm">
                   Consulter Proposition
                 </a>
               </td>
@@ -131,7 +129,6 @@ $demenageurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <tr><td colspan="3">Aucun déménageur n’a encore postulé.</td></tr>
         <?php endif; ?>
         </tbody>
-
       </table>
     </div>
 
