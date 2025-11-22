@@ -54,13 +54,13 @@
           <label for="confirm">Confirmer le mot de passe</label>
           <input type="password" id="confirm" name="confirm" required>
 
-          <button type="submit">CrÃ©er le compte</button>
+          <button type="submit">Créer le compte</button>
         </form>
         
 
             <div class="text-center mt-3">
-                <a href="connexion.php" class="text-dark text-decoration-none">DÃ©jÃ  un compte ? Se connecter</a><br>
-                <a href="index.php" class="text-dark text-decoration-none">&larr; Retour Ã  lâ€™accueil</a>
+                <a href="connexion.php" class="text-dark text-decoration-none">Déjà un compte ? Se connecter</a><br>
+                <a href="index.php" class="text-dark text-decoration-none">&larr; Retour à l’accueil</a>
             </div>
         </div>
       
